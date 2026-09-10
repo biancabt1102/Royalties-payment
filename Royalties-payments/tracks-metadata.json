@@ -1,0 +1,119 @@
+{
+  "performers": [
+    {
+      "id": "3E68FE9A-96B4-4199-A17F-E0E17C16FDEF",
+      "name": "Taylor Swift"
+    },
+    {
+      "id": "5BFACAFF-C8AD-4D1F-B98D-E0580D7B9903",
+      "name": "Bon Iver"
+    },
+    {
+      "id": "358454BB-C3B3-454F-A5E0-C5D4DFB5CB00",
+      "name": "David Bowie"
+    },
+    {
+      "id": "B0CEB98C-22F2-433F-8E83-D5C416C0CB59",
+      "name": "Talking Heads"
+    }
+  ],
+
+  "composers": [
+    {
+      "id": "E4FBD733-9188-4415-8426-8AF683F0C420",
+      "name": "Taylor Swift"
+    },
+    {
+      "id": "7615D8D8-2DF7-498F-97C1-8F5CEA31B3E6",
+      "name": "Jack Antonoff"
+    },
+    {
+      "id": "5AFC1E44-12E6-4B8C-8AEB-A757DC6147BA",
+      "name": "Justin Vernon"
+    },
+    {
+      "id": "B28985B9-B067-4170-B349-2E7F8221E4B3",
+      "name": "David Bowie"
+    },
+    {
+      "id": "AD2178E1-C721-4F49-AE71-610B24EF8C6F",
+      "name": "Talking Heads"
+    },
+    {
+      "id": "A9CDF24F-AB63-422A-B40B-F00A53F5D27D",
+      "name": "Brian Eno"
+    }
+  ],
+
+  "compositions": [
+    {
+      "id": "61CCCCD9-78AC-45C8-900C-681DAAE01C71",
+      "title": "August",
+      "publish_date": "2020-06-24",
+      "composers_ids": [ "E4FBD733-9188-4415-8426-8AF683F0C420", "7615D8D8-2DF7-498F-97C1-8F5CEA31B3E6" ]
+    },
+    {
+      "id": "7412A337-5E70-4931-A348-E0A07D1CB5A5",
+      "title": "Mirrorball",
+      "publish_date": "2020-06-24",
+      "composers_ids": [ "E4FBD733-9188-4415-8426-8AF683F0C420", "7615D8D8-2DF7-498F-97C1-8F5CEA31B3E6" ]
+    },
+    {
+      "id": "F137776B-9E00-4ED6-8D20-962DF51DA8EC",
+      "title": "Exile",
+      "publish_date": "2020-06-24",
+      "composers_ids": [ "E4FBD733-9188-4415-8426-8AF683F0C420", "5AFC1E44-12E6-4B8C-8AEB-A757DC6147BA" ]
+    },
+    {
+      "id": "F68C28D6-9484-409D-8CFF-F9BE6BC257ED",
+      "title": "Fantastic Voyage",
+      "publish_date": "1979-03-27",
+      "composers_ids": [ "B28985B9-B067-4170-B349-2E7F8221E4B3", "A9CDF24F-AB63-422A-B40B-F00A53F5D27D" ]
+    },
+    {
+      "id": "8ECF38BF-93A1-4F7A-8266-79FE0EBDAA42",
+      "title": "Once in a Lifetime",
+      "publish_date": "1980-11-11",
+      "composers_ids": [ "AD2178E1-C721-4F49-AE71-610B24EF8C6F", "A9CDF24F-AB63-422A-B40B-F00A53F5D27D" ]
+    }
+
+  ],
+  "tracks": [
+    {
+      "id": "7228A9B0-7ED8-463E-AEE5-8950D304E11D",
+      "title": "August",
+      "composition_id": "61CCCCD9-78AC-45C8-900C-681DAAE01C71",
+      "release_date": "2020-07-24",
+      "performers_ids": [ "3E68FE9A-96B4-4199-A17F-E0E17C16FDEF" ]
+    },
+    {
+      "id": "0CA26EDB-8518-4D5F-A933-74E227C6A5BA",
+      "title": "Mirrorball",
+      "composition_id": "7412A337-5E70-4931-A348-E0A07D1CB5A5",
+      "release_date": "2020-07-24",
+      "performers_ids": [ "3E68FE9A-96B4-4199-A17F-E0E17C16FDEF" ]
+    },
+    {
+      "id": "3A293651-562A-4680-9027-3760B6B8DE35",
+      "title": "Exile (ft Bon Iver)",
+      "composition_id": "F137776B-9E00-4ED6-8D20-962DF51DA8EC",
+      "release_date": "2020-07-24",
+      "performers_ids": [ "3E68FE9A-96B4-4199-A17F-E0E17C16FDEF", "5BFACAFF-C8AD-4D1F-B98D-E0580D7B9903" ]
+    },
+    {
+      "id": "48FA1BAB-BDDA-4FEF-8E29-3B23B955419F",
+      "title": "Fantastic Voyage",
+      "composition_id": "F68C28D6-9484-409D-8CFF-F9BE6BC257ED",
+      "release_date": "1979-04-27",
+      "performers_ids": [ "358454BB-C3B3-454F-A5E0-C5D4DFB5CB00" ]
+    },
+    {
+      "id": "37292120-F57E-410D-B905-FE323E724483",
+      "title": "Once in a Lifetime",
+      "composition_id": "8ECF38BF-93A1-4F7A-8266-79FE0EBDAA42",
+      "release_date": "1981-01-15",
+      "performers_ids": [ "B0CEB98C-22F2-433F-8E83-D5C416C0CB59" ]
+    }
+
+  ]
+}

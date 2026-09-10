@@ -1,0 +1,28 @@
+[
+	{
+		"subscriber_id": "B28325A7-EF1F-49B7-A3F4-87ABF57732E0",
+		"total_paid_subscription": "25.00",
+		"streams": [
+			{
+				"track_id": "7228A9B0-7ED8-463E-AEE5-8950D304E11D",
+				"timestamp": "2026-08-17T12:59:25+00:00"
+			},
+			{
+				"track_id": "0CA26EDB-8518-4D5F-A933-74E227C6A5BA5",
+				"timestamp": "2026-08-17T13:01:25+00:00"
+			},
+			{
+				"track_id": "3A293651-562A-4680-9027-3760B6B8DE35",
+				"timestamp": "2026-08-17T13:04:25+00:00"
+			},
+			{
+				"track_id": "48FA1BAB-BDDA-4FEF-8E29-3B23B955419F",
+				"timestamp": "2026-08-17T13:11:25+00:00"
+			},
+			{
+				"track_id": "37292120-F57E-410D-B905-FE323E72448",
+				"timestamp": "2026-08-17T13:21:25+00:00"
+			}
+		]
+	}
+]
