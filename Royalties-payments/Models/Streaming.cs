@@ -3,9 +3,8 @@
 namespace Royalties_payments.Models;
 public class Streaming
 {
-    public Guid Id { get; set; }
-    [JsonPropertyName("")]
-    public List<Track> Tracks { get; set; }
+    [JsonPropertyName("track_id")]
+    public Guid TrackId { get; set; }
     [JsonPropertyName("timestamp")]
     public DateTime Timestamp { get; set; }
 }

@@ -9,7 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Service\" />
+    <None Remove="Data\subscribers-streams.json" />
+    <None Remove="Data\tracks-metadata.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\subscribers-streams.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\tracks-metadata.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

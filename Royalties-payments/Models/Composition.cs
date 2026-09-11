@@ -10,5 +10,5 @@ public class Composition
     [JsonPropertyName("publish_date")]
     public DateTime DatePublish { get; set; }
     [JsonPropertyName("composers_ids")]
-    public List<Composer> Composers { get; set; }
+    public List<Guid> ComposerId { get; set; }
 }
