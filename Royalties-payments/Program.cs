@@ -10,22 +10,26 @@ using System.Text.Json;
 string trackPath = "Data/tracks-metadata.json";
 string subscribersPath = "Data/subscribers-streams.json";
 
-Console.WriteLine(Path.GetFullPath(trackPath));
-Console.WriteLine(File.Exists(trackPath));
-
+//leitura do arquivo
 var trackData = TrackReader.Read(trackPath);
 var subscribers = SubscriberReader.Read(subscribersPath);
 
-Console.WriteLine($"Tracks: {trackData.Tracks.Count}");
-Console.WriteLine($"Compositions: {trackData.Compositions.Count}");
-Console.WriteLine($"Composer: {trackData.Composers.Count}");
-Console.WriteLine($"Performer: {trackData.Performers.Count}");
-Console.WriteLine($"Subscribers: {subscribers.Count}");
-
-// Testando relacionamento Stream → Track
+//Buscando o subscriber e o stream que ele deu
 var subscriber = subscribers[0];
 var streaming = subscriber.Streams[0];
 
-var track = trackData.Tracks.FirstOrDefault(t => t.Id == streaming.TrackId);
+//Relacionando o streaming com a track
+TrackService trackService = new TrackService(trackData);
 
-Console.WriteLine($"Track reproduzida: {track?.Title}");
+var track = trackService.GetTrackById(streaming.TrackId);
+
+if (track is null)
+{
+    throw new InvalidDataException("Não foi encontrado nenhuma informação de track.");
+}
+
+var composition = trackService.GetComposition(track);
+
+var composers = trackService.GetComposers(composition);
+
+var performers = trackService.GetPerformers(track);
