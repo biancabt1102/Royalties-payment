@@ -14,22 +14,13 @@ string subscribersPath = "Data/subscribers-streams.json";
 var trackData = TrackReader.Read(trackPath);
 var subscribers = SubscriberReader.Read(subscribersPath);
 
-//Buscando o subscriber e o stream que ele deu
+//Buscando as informações dos arquivos json
 var subscriber = subscribers[0];
 var streaming = subscriber.Streams[0];
+var trackIds = subscriber.Streams.Select(s => s.TrackId).ToList();
 
-//Relacionando o streaming com a track
 TrackService trackService = new TrackService(trackData);
-
-var track = trackService.GetTrackById(streaming.TrackId);
-
-if (track is null)
-{
-    throw new InvalidDataException("Não foi encontrado nenhuma informação de track.");
-}
-
-var composition = trackService.GetComposition(track);
-
-var composers = trackService.GetComposers(composition);
-
-var performers = trackService.GetPerformers(track);
+var trackInformation = trackService.GetTrackInformation(trackIds);
+//
+var royaltyCalculator = new RoyaltyCalculator(trackInformation, subscriber);
+royaltyCalculator.Calculator();
