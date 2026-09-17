@@ -10,7 +10,7 @@ public class Track
     [JsonPropertyName("composition_id")]
     public Guid CompositionId { get; set; }
     [JsonPropertyName("performers_ids")]
-    public List<Guid> PerformersId { get; set; }
+    public List<Guid> PerformersId { get; set; } = [];
     [JsonPropertyName("release_date")]
     public DateTime ReleaseDate { get; set; }
 }
