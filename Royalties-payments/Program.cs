@@ -1,6 +1,7 @@
 ﻿using Royalties_payments.Models;
 using Royalties_payments.Reader;
 using Royalties_payments.Service;
+using Royalties_payments.Writer;
 using System.Text.Json;
 
 //caminho do arquivo json
@@ -23,4 +24,9 @@ TrackService trackService = new TrackService(trackData);
 var trackInformation = trackService.GetTrackInformation(trackIds);
 //
 var royaltyCalculator = new RoyaltyCalculator(trackInformation, subscriber);
-royaltyCalculator.Calculator();
+//royaltyCalculator.Calculator();
+
+RoyaltyPaymentService royaltyService = new RoyaltyPaymentService(royaltyCalculator);
+List<RoyaltyPayment> payments = royaltyService.GeneratePayment();
+
+CreateFileCSV.CriarArquivo("Royalties-payment.csv", payments);

@@ -12,15 +12,20 @@ public class RoyaltyCalculator
         TrackInformation = trackInformation;
         Subscriber = subscriber;
     }
-    public void Calculator()
+    public List<Dictionary<Guid, decimal>> Calculator()
     {
         decimal valorAssinatura = Subscriber.TotalPaidSubscription;
         decimal valorTotalComposer = valorAssinatura / 2;
         decimal valorTotalPerformer = valorAssinatura / 2;
         int qtdeTotalStreams = Subscriber.Streams.Count;
 
-        Dictionary<Guid, decimal> ComposerRoyalties = CalculatorComposerRoyalties(valorTotalComposer, qtdeTotalStreams);
-        Dictionary<Guid, decimal> PerformerRoyalties = CalculatorPerformersRoyalties(valorTotalPerformer, qtdeTotalStreams);
+        Dictionary<Guid, decimal> composerRoyalties = CalculatorComposerRoyalties(valorTotalComposer, qtdeTotalStreams);
+        Dictionary<Guid, decimal> performerRoyalties = CalculatorPerformersRoyalties(valorTotalPerformer, qtdeTotalStreams);
+
+        List<Dictionary<Guid, decimal>> dicionarios = new();
+        dicionarios.Add(composerRoyalties);
+        dicionarios.Add(performerRoyalties);
+        return dicionarios;
     }
     public void AddInDictionary(Dictionary<Guid, decimal> dicionario, Guid chave, decimal valor)
     {
@@ -46,7 +51,7 @@ public class RoyaltyCalculator
 
             decimal valueTrack = valuePerStream * qtdeStreamTrack;
 
-            decimal valuePerPerformer = valueTrack / qtdePerformersPerTrack;
+            decimal valuePerPerformer = Math.Round((valueTrack / qtdePerformersPerTrack), 2, MidpointRounding.ToEven);
 
             foreach (var performerId in trackInformation.Track.PerformersId)
             {
@@ -68,7 +73,7 @@ public class RoyaltyCalculator
 
             decimal valueTrack = valuePerStream * qtdeStreamTrack;
 
-            decimal valuePerComposer = valueTrack / qtdeComposerPerTrack;
+            decimal valuePerComposer = Math.Round((valueTrack / qtdeComposerPerTrack), 2, MidpointRounding.ToEven);
 
             foreach (var composerId in trackInformation.Composition.ComposerId)
             {
