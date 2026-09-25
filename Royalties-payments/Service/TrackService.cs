@@ -11,11 +11,11 @@ public class TrackService
 
     public List<TrackInformation>? GetTrackInformation(List<Guid> trackIds)
     {
-        var tracks = _trackData.Tracks.Where(t => trackIds.Contains(t.Id));
+        var tracks = _trackData.Tracks.Where(t => trackIds.Contains(t.Id)).ToList();
 
         var tracksInformation = new List<TrackInformation>();
 
-        if (tracks is null)
+        if (tracks.Count == 0)
         {
             throw new InvalidDataException("Não foi encontrado nenhuma informação de track.");
         }
