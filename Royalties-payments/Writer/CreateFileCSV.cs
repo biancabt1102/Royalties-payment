@@ -11,9 +11,12 @@ public static class CreateFileCSV
         {
             wr.WriteLine("IdRecebedor;TipoRoyalty;TotalRoyalties");
 
-            foreach (var payment in payments)
+            if (payments.Count > 0)
             {
-                wr.WriteLine($"{payment.ReceiverId};{payment.RoyaltyType};{payment.TotalRoyalties}");
+                foreach (var payment in payments)
+                {
+                    wr.WriteLine($"{payment.ReceiverId};{payment.RoyaltyType};{payment.TotalRoyalties}");
+                }
             }
         }
     }

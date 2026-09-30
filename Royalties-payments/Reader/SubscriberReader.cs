@@ -5,14 +5,15 @@ public static class SubscriberReader
 {
     public static List<Subscriber> Read(string filePath)
     {
-        string json = File.ReadAllText(filePath);
-
-        List<Subscriber>? subscribers = JsonSerializer.Deserialize<List<Subscriber>>(json);
-
-        if (subscribers is null)
+        try
         {
-            throw new InvalidOperationException("Não foi possível ler o arquivo de subscribers.");
+            string json = File.ReadAllText(filePath);
+            List<Subscriber>? subscribers = JsonSerializer.Deserialize<List<Subscriber>>(json);
+            return subscribers;
         }
-        return subscribers;
+        catch (JsonException ex)
+        {
+            throw new InvalidOperationException("Erro ao desserializar o arquivo de subscribers.", ex);
+        }
     }
 }

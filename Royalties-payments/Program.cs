@@ -5,11 +5,11 @@ using Royalties_payments.Writer;
 using System.Text.Json;
 
 //caminho do arquivo json
-//string trackPath = args[0];
-//string streamPath = args[1];
+string trackPath = args[0];
+string subscribersPath = args[1];
 
-string trackPath = "Data/tracks-metadata.json";
-string subscribersPath = "Data/subscribers-streams.json";
+//string trackPath = "Data/tracks-metadata.json";
+//string subscribersPath = "Data/subscribers-streams.json";
 
 //leitura do arquivo
 var trackData = TrackReader.Read(trackPath);
