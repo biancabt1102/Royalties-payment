@@ -12,7 +12,6 @@ public class TrackService
     public List<TrackInformation>? GetTrackInformation(List<Guid> trackIds)
     {
         var tracks = _trackData.Tracks.Where(t => trackIds.Contains(t.Id)).ToList();
-
         var tracksInformation = new List<TrackInformation>();
 
         if (tracks.Count == 0)
@@ -30,9 +29,7 @@ public class TrackService
             }
 
             var composers = _trackData.Composers.Where(c => composition.ComposerId.Contains(c.Id)).ToList();
-
             var performers = _trackData.Performers.Where(p => track.PerformersId.Contains(p.Id)).ToList();
-
             tracksInformation.Add(new TrackInformation(track, composition, composers, performers));
         }
         return tracksInformation;

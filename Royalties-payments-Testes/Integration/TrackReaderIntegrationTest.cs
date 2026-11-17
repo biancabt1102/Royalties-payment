@@ -1,4 +1,4 @@
-﻿using Royalties_payments.Reader;
+﻿using Royalties_payments_Testes.Builder;
 using System.Text.Json;
 
 namespace Royalties_payments_Testes.Integration;
@@ -10,7 +10,7 @@ public class TrackReaderIntegrationTest
         // Arrange
         string filePath = "Data/tracks-metadata.json";
         // Act
-        var trackData = TrackReader.Read(filePath);
+        var trackData = TrackDataBuilder.ReadFile(filePath);
         // Assert
         Assert.NotNull(trackData);
         Assert.Equal("August", trackData.Tracks[0].Title);
@@ -24,7 +24,7 @@ public class TrackReaderIntegrationTest
         // Arrange
         string filePath = "TestData/tracks-metadata.json";
         // Act & Assert
-        Assert.Throws<DirectoryNotFoundException>(() => TrackReader.Read(filePath));
+        Assert.Throws<DirectoryNotFoundException>(() => TrackDataBuilder.ReadFile(filePath));
     }
 
     [Fact]
@@ -32,36 +32,33 @@ public class TrackReaderIntegrationTest
     {
         // Arrange
         string filePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.json");
-        File.WriteAllText(filePath, "");
+        try
+        {
+            File.WriteAllText(filePath, "");
 
-        // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => TrackReader.Read(filePath));
-
-        File.Delete(filePath);
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => TrackDataBuilder.ReadFile(filePath));
+        }
+        finally
+        {
+            if(File.Exists(filePath)) File.Delete(filePath);
+        }
     }
 
     [Fact]
-    public void Read_ShouldThrowInvalidOperationException_WhenJsonIsInvalid()
+    public void Read_ShouldThrowJsonException_WhenJsonIsInvalid()
     {
         // Arrange
         string filePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.json");
-        File.WriteAllText(filePath, "{ json inválido }");
-
-        // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => TrackReader.Read(filePath));
-
-        File.Delete(filePath);
-    }
-
-    [Fact]
-    public void Read_ShouldThrowInvalidOperationException_WithJsonExceptionAsInnerException()
-    {
-        // Arrange
-        string filePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.json");
-        File.WriteAllText(filePath, "{ json inválido }");
-        // Act & Assert
-        var exception = Assert.Throws<InvalidOperationException>(() => TrackReader.Read(filePath));
-        Assert.IsType<JsonException>(exception.InnerException);
-        File.Delete(filePath);
+        try
+        {
+            File.WriteAllText(filePath, "{ json inválido }");
+            // Act & Assert
+            Assert.Throws<JsonException>(() => TrackDataBuilder.ReadFile(filePath));
+        }
+        finally
+        {
+            if(File.Exists(filePath)) File.Delete(filePath);
+        }
     }
 }

@@ -7,30 +7,18 @@ namespace Royalties_payments_Testes;
 public class RoyaltyCalculatorTest
 {
     [Fact]
-    public void Calculator_MustCalculateRoyalties()
+    public void Calculate_ShouldCalculateRoyalties()
     {
         //Arrange
-        var trackInformation = TrackInformationBuilder.Create();
-        var subscriber = new Subscriber
-        {
-            SubscriberId = Guid.NewGuid(),
-            Streams = new List<Streaming>
-            {
-                new Streaming
-                {
-                    TrackId = trackInformation[0].Track.Id
-                }
-            },
-            TotalPaidSubscription = 25
-        };
+        var trackInformation = TrackInformationBuilder.CreateWithOneTrack();
+        var subscriber = SubscribersBuilder.CreateOneSubscriberWithOneStream(trackInformation);
         var royalty = new RoyaltyCalculator(trackInformation, subscriber);
 
         //Act
-        var result = royalty.Calculator();
+        var result = royalty.Calculate();
 
         var composerResult = result[0];
         var performerResult = result[1];
-
         var composerId = trackInformation[0].Composition.ComposerId[0];
         var performerId = trackInformation[0].Track.PerformersId[0];
 
@@ -41,29 +29,14 @@ public class RoyaltyCalculatorTest
     }
 
     [Fact]
-    public void Calculator_MustSumRoyaltiesForSameReceiverInDifferentTracks()
+    public void Calculate_ShouldSumRoyaltiesFor_SamePerformerDiffTracksAndSameComposer()
     {
         //Arrange
-	    var trackInformation = TrackInformationBuilder.Create();
-        var subscriber = new Subscriber
-        {
-            SubscriberId = Guid.NewGuid(),
-            Streams = new List<Streaming>
-            {
-                new Streaming
-                {
-                    TrackId = trackInformation[0].Track.Id
-                },
-                new Streaming
-                {
-                    TrackId = trackInformation[1].Track.Id
-                }
-            },
-            TotalPaidSubscription = 25
-        };
+	    var trackInformation = TrackInformationBuilder.CreateWithTwoTracks();
+        var subscriber = SubscribersBuilder.CreateOneSubscriberWithTwoStreams(trackInformation);
         var royalty = new RoyaltyCalculator(trackInformation, subscriber);
         //Act
-        var result = royalty.Calculator();
+        var result = royalty.Calculate();
 
         var composerResult = result[0];
         var performerResult = result[1];

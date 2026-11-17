@@ -1,48 +1,17 @@
 ﻿using Royalties_payments.Models;
 using Royalties_payments.Service;
+using Royalties_payments_Testes.Builder;
 namespace Royalties_payments_Testes;
 public class TrackServiceTest
 {
     [Fact]
-    public void GetTrackInformation_MustReturnFoundTrack()
+    public void GetTrackInformation_ShouldReturnFoundTrack()
     {
         //Arrange
         //preparar o trackData e trackService
-        var trackId = Guid.NewGuid();
-        var compositionId = Guid.NewGuid();
-        var performerId = Guid.NewGuid();
-        var composerId = Guid.NewGuid();
-        var track = new Track
-        {
-            Id = trackId,
-            Title = "Music Test",
-            CompositionId = compositionId,
-            PerformersId = [performerId]
-        };
-        var composition = new Composition
-        {
-            Id = compositionId,
-            Title = "Composition Test",
-            ComposerId = [composerId]
-        };
-        var performer = new Performer
-        {
-            Id = performerId,
-            Name = "Performer Test"
-        };
-        var composer = new Composer
-        {
-            Id = composerId,
-            Name = "Composer Test"
-        };
-        var trackData = new TrackData
-        {
-            Tracks = [track],
-            Compositions = [composition],
-            Performers = [performer],
-            Composers = [composer]
-        };
+        var trackData = TrackDataBuilder.CreateOneTrackWithOnePerformerAndOneComposer();
         var service = new TrackService(trackData);
+        var trackId = trackData.Tracks.First().Id;
 
         //Act
         //chamar o getTrackInformation com uma lista de trackIds
@@ -56,42 +25,15 @@ public class TrackServiceTest
     }
 
     [Fact]
-    public void GetTrackInformation_MustReturnAllComposersOfTheTrack()
+    public void GetTrackInformation_ShouldReturnAllComposersOfTheTrack()
     {
         //Arrange
-        var trackId = Guid.NewGuid();
-        var compositionId = Guid.NewGuid();
-        var composerId1 = Guid.NewGuid();
-        var composerId2 = Guid.NewGuid();
-        var track = new Track
-        {
-            Id = trackId,
-            Title = "Music Test",
-            CompositionId = compositionId
-        };
-        var composition = new Composition
-        {
-            Id = compositionId,
-            Title = "Composition Test",
-            ComposerId = [composerId1, composerId2]
-        };
-        var composer1 = new Composer
-        {
-            Id = composerId1,
-            Name = "Composer Test 1"
-        };
-        var composer2 = new Composer
-        {
-            Id = composerId2,
-            Name = "Composer Test 2"
-        };
-        var trackData = new TrackData
-        {
-            Tracks = [track],
-            Compositions = [composition],
-            Composers = [composer1, composer2]
-        };
+        var trackData = TrackDataBuilder.CreateOneTrackWithTwoComposer();
         var service = new TrackService(trackData);
+
+        var trackId = trackData.Tracks[0].Id;
+        var composerId1 = trackData.Composers[0].Id;
+        var composerId2 = trackData.Composers[1].Id;
 
         //Act
         var result = service.GetTrackInformation([trackId]);
@@ -105,44 +47,15 @@ public class TrackServiceTest
     }
 
     [Fact]
-    public void GetTrackInformation_MustReturnAllPerformersOfTheTrack()
+    public void GetTrackInformation_ShouldReturnAllPerformersOfTheTrack()
     {
         //Arrange
-        var trackId = Guid.NewGuid();
-        var compositionId = Guid.NewGuid();
-        var composerId = Guid.NewGuid();
-        var performerId1 = Guid.NewGuid();
-        var performerId2 = Guid.NewGuid();
-        var track = new Track
-        {
-            Id = trackId,
-            Title = "Music Test",
-            CompositionId = compositionId,
-            PerformersId = [performerId1, performerId2]
-        };
-        var composition = new Composition
-        {
-            Id = compositionId,
-            Title = "Composition Test",
-            ComposerId = [composerId]
-        };
-        var performer1 = new Performer
-        {
-            Id = performerId1,
-            Name = "Performer Test 1"
-        };
-        var performer2 = new Performer
-        {
-            Id = performerId2,
-            Name = "Performer Test 2"
-        };
-        var trackData = new TrackData
-        {
-            Tracks = [track],
-            Compositions = [composition],
-            Performers = [performer1, performer2]
-        };
+        var trackData = TrackDataBuilder.CreateOneTrackWithTwoPerformers();
         var service = new TrackService(trackData);
+
+        var trackId = trackData.Tracks.First().Id;
+        var performerId1 = trackData.Performers[0].Id;
+        var performerId2 = trackData.Performers[1].Id;
 
         //Act
         var result = service.GetTrackInformation([trackId]);
@@ -156,38 +69,13 @@ public class TrackServiceTest
     }
 
     [Fact]
-    public void GetTrackInformation_MustReturnTheCompositionOfTheTrack()
+    public void GetTrackInformation_ShouldReturnOneCompositionOfTheTrack()
     {
         //Arrange
-        var trackId = Guid.NewGuid();
-        var compositionId = Guid.NewGuid();
-        var composerId = Guid.NewGuid();
-        var performerId = Guid.NewGuid();
-        var track = new Track
-        {
-            Id = trackId,
-            Title = "Music Test",
-            CompositionId = compositionId,
-            PerformersId = [performerId]
-        };
-        var composition = new Composition
-        {
-            Id = compositionId,
-            Title = "Composition Test",
-            ComposerId = [composerId]
-        };
-        var performer1 = new Performer
-        {
-            Id = performerId,
-            Name = "Performer Test 1"
-        };
-        var trackData = new TrackData
-        {
-            Tracks = [track],
-            Compositions = [composition],
-            Performers = [performer1]
-        };
+        var trackData = TrackDataBuilder.CreateOneTrackWithOnePerformerAndOneComposer();
         var service = new TrackService(trackData);
+        var trackId = trackData.Tracks[0].Id;
+        var compositionId = trackData.Compositions[0].Id;
 
         //Act
         var result = service.GetTrackInformation([trackId]);
@@ -199,22 +87,11 @@ public class TrackServiceTest
     }
 
     [Fact]
-    public void GetTrackInformation_MustThrowExceptionWhenCompositionNotFound()
+    public void GetTrackInformation_ShouldThrowException_WhenCompositionNotFound()
     {
         //Arrange
-        var trackId = Guid.NewGuid();
-        var compositionId = Guid.NewGuid();
-        var track = new Track
-        {
-            Id = trackId,
-            Title = "Music Test",
-            CompositionId = compositionId
-        };
-        var trackData = new TrackData
-        {
-            Tracks = [track],
-            Compositions = []
-        };
+        var trackData = TrackDataBuilder.CreateOneTrackWithoutComposition();
+        var trackId = trackData.Tracks.First().Id;
         var service = new TrackService(trackData);
 
         //Act
@@ -225,14 +102,11 @@ public class TrackServiceTest
     }
 
     [Fact]
-    public void GetTrackInformation_MustThrowExceptionWhenTrackNotFound()
+    public void GetTrackInformation_ShouldThrowException_WhenTrackNotFound()
     {
         //Arrange
         var trackId = Guid.NewGuid();
-        var trackData = new TrackData
-        {
-            Tracks = []
-        };
+        var trackData = new TrackData { Tracks = [] };
         var service = new TrackService(trackData);
 
         //Act

@@ -13,7 +13,7 @@ public class RoyaltyPaymentService
     {
         var payments = new List<RoyaltyPayment>();
 
-        List<Dictionary<Guid, decimal>> dicionarios = _royaltyCalculator.Calculator();
+        List<Dictionary<Guid, decimal>> dicionarios = _royaltyCalculator.Calculate();
 
         Dictionary<Guid, decimal> composerRoyalties = dicionarios[0];
         Dictionary<Guid, decimal> performerRoyalties = dicionarios[1];
