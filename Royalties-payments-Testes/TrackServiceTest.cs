@@ -8,15 +8,11 @@ public class TrackServiceTest
     public void GetTrackInformation_ShouldReturnFoundTrack()
     {
         //Arrange
-        //preparar o trackData e trackService
         var trackData = TrackDataBuilder.CreateOneTrackWithOnePerformerAndOneComposer();
         var service = new TrackService(trackData);
         var trackId = trackData.Tracks.First().Id;
-
         //Act
-        //chamar o getTrackInformation com uma lista de trackIds
         var result = service.GetTrackInformation([trackId]);
-
         //Assert
         Assert.NotNull(result);
         Assert.Single(result);
@@ -30,14 +26,11 @@ public class TrackServiceTest
         //Arrange
         var trackData = TrackDataBuilder.CreateOneTrackWithTwoComposer();
         var service = new TrackService(trackData);
-
         var trackId = trackData.Tracks[0].Id;
         var composerId1 = trackData.Composers[0].Id;
         var composerId2 = trackData.Composers[1].Id;
-
         //Act
         var result = service.GetTrackInformation([trackId]);
-
         //Assert
         Assert.NotNull(result);
         Assert.Single(result);
@@ -52,14 +45,11 @@ public class TrackServiceTest
         //Arrange
         var trackData = TrackDataBuilder.CreateOneTrackWithTwoPerformers();
         var service = new TrackService(trackData);
-
         var trackId = trackData.Tracks.First().Id;
         var performerId1 = trackData.Performers[0].Id;
         var performerId2 = trackData.Performers[1].Id;
-
         //Act
         var result = service.GetTrackInformation([trackId]);
-
         //Assert
         Assert.NotNull(result);
         Assert.Single(result);
@@ -76,14 +66,84 @@ public class TrackServiceTest
         var service = new TrackService(trackData);
         var trackId = trackData.Tracks[0].Id;
         var compositionId = trackData.Compositions[0].Id;
-
         //Act
         var result = service.GetTrackInformation([trackId]);
-
         //Assert
         Assert.NotNull(result);
         Assert.Single(result);
         Assert.Equal(compositionId, result[0].Composition.Id);
+    }
+
+    [Fact]
+    public void GetTrackInformation_ShouldReturnSameComposerDifferentTracks()
+    {
+        //Arrange
+        var trackData = TrackDataBuilder.CreateSameComposerDifferentPerformersDifferentTracks();
+        var service = new TrackService(trackData);
+        var trackId1 = trackData.Tracks[0].Id;
+        var trackId2 = trackData.Tracks[1].Id;
+        var composerId = trackData.Composers[0].Id;
+        //Act
+        var result = service.GetTrackInformation([trackId1, trackId2]);
+        //Assert
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Count);
+        Assert.Equal(composerId, result[0].Composers[0].Id);
+        Assert.Equal(composerId, result[1].Composers[0].Id);
+    }
+
+    [Fact]
+    public void GetTrackInformation_ShouldReturnSamePerformerDifferentComposersDifferentTracks()
+    {
+        //Arrange
+        var trackData = TrackDataBuilder.CreateSamePerformerDifferentComposersDifferentTracks();
+        var service = new TrackService(trackData);
+        var trackId1 = trackData.Tracks[0].Id;
+        var trackId2 = trackData.Tracks[1].Id;
+        var performerId = trackData.Performers[0].Id;
+        //Act
+        var result = service.GetTrackInformation([trackId1, trackId2]);
+        //Assert
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Count);
+        Assert.Equal(performerId, result[0].Performers[0].Id);
+        Assert.Equal(performerId, result[1].Performers[0].Id);
+    }
+
+    [Fact]
+    public void GetTrackInformation_ShouldReturnDifferentComposersForSameTrack()
+    {
+        //Arrange
+        var trackData = TrackDataBuilder.CreateDifferentComposerSameTrack();
+        var service = new TrackService(trackData);
+        var trackId = trackData.Tracks[0].Id;
+        var composerId1 = trackData.Composers[0].Id;
+        var composerId2 = trackData.Composers[1].Id;
+        //Act
+        var result = service.GetTrackInformation([trackId]);
+        //Assert
+        Assert.NotNull(result);
+        Assert.Equal(composerId1, result[0].Composers[0].Id);
+        Assert.Equal(composerId2, result[0].Composers[1].Id);
+        Assert.Equal(2, result[0].Composers.Count);
+    }
+
+    [Fact]
+    public void GetTrackInformation_ShouldReturnDifferentPerformersForSameTrack()
+    {
+        //Arrange
+        var trackData = TrackDataBuilder.CreateDifferentPerformersSameTrack();
+        var service = new TrackService(trackData);
+        var trackId = trackData.Tracks[0].Id;
+        var performerId1 = trackData.Performers[0].Id;
+        var performerId2 = trackData.Performers[1].Id;
+        //Act
+        var result = service.GetTrackInformation([trackId]);
+        //Assert
+        Assert.NotNull(result);
+        Assert.Equal(performerId1, result[0].Performers[0].Id);
+        Assert.Equal(performerId2, result[0].Performers[1].Id);
+        Assert.Equal(2, result[0].Performers.Count);
     }
 
     [Fact]
@@ -93,10 +153,8 @@ public class TrackServiceTest
         var trackData = TrackDataBuilder.CreateOneTrackWithoutComposition();
         var trackId = trackData.Tracks.First().Id;
         var service = new TrackService(trackData);
-
         //Act
         var exception = Assert.Throws<InvalidDataException>(() => service.GetTrackInformation([trackId]));
-
         //Assert
         Assert.Equal("Não foi encontrado nenhuma informação de composition", exception.Message);
     }
@@ -108,10 +166,8 @@ public class TrackServiceTest
         var trackId = Guid.NewGuid();
         var trackData = new TrackData { Tracks = [] };
         var service = new TrackService(trackData);
-
         //Act
         var exception = Assert.Throws<InvalidDataException>(() => service.GetTrackInformation([trackId]));
-
         //Assert
         Assert.Equal("Não foi encontrado nenhuma informação de track.", exception.Message);
     }

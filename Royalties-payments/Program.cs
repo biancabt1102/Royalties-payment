@@ -2,37 +2,40 @@
 using Royalties_payments.Service;
 using Royalties_payments.Writer;
 using System.Text.Json;
-
-//caminho do arquivo json
-string trackPath = "Data/tracks-metadata.json";
-string subscribersPath = "Data/subscribers-streams.json";
-//string trackPath = args[0];
-//string subscribersPath = args[1];
-
-try
+public class Program
 {
-    //leitura do arquivo
-    string jsonTrack = File.ReadAllText(trackPath);
-    TrackData? trackData = JsonSerializer.Deserialize<TrackData>(jsonTrack);
-    string jsonSubscribers = File.ReadAllText(subscribersPath);
-    List<Subscriber>? subscribers = JsonSerializer.Deserialize<List<Subscriber>>(jsonSubscribers);
+    public static void Main(string[] args)
+    {
+        //caminho do arquivo json
+        string trackPath = args[0];
+        string subscribersPath = args[1];
 
-    //Buscando as informações dos arquivos json
-    var subscriber = subscribers[0];
-    var streaming = subscriber.Streams[0];
-    var trackIds = subscriber.Streams.Select(s => s.TrackId).ToList();
+        try
+        {
+            //leitura do arquivo
+            string jsonTrack = File.ReadAllText(trackPath);
+            TrackData? trackData = JsonSerializer.Deserialize<TrackData>(jsonTrack);
+            string jsonSubscribers = File.ReadAllText(subscribersPath);
+            List<Subscriber>? subscribers = JsonSerializer.Deserialize<List<Subscriber>>(jsonSubscribers);
 
-    TrackService trackService = new TrackService(trackData);
-    var trackInformation = trackService.GetTrackInformation(trackIds);
+            //Buscando as informações dos arquivos json
+            var subscriber = subscribers[0];
+            var streaming = subscriber.Streams[0];
+            var trackIds = subscriber.Streams.Select(s => s.TrackId).ToList();
 
-    var royaltyCalculator = new RoyaltyCalculator(trackInformation, subscriber);
+            TrackService trackService = new TrackService(trackData);
+            var trackInformation = trackService.GetTrackInformation(trackIds);
 
-    RoyaltyPaymentService royaltyService = new RoyaltyPaymentService(royaltyCalculator);
-    List<RoyaltyPayment> payments = royaltyService.GeneratePayment();
+            var royaltyCalculator = new RoyaltyCalculator(trackInformation, subscriber);
 
-    CreateFileCSV.CriarArquivo("Royalties-payment.csv", payments);
-}
-catch (Exception ex)
-{
-    throw new InvalidOperationException("Erro ao desserializar o arquivo json.", ex);
+            RoyaltyPaymentService royaltyService = new RoyaltyPaymentService(royaltyCalculator);
+            List<RoyaltyPayment> payments = royaltyService.GeneratePayment();
+
+            CreateFileCSV.CriarArquivo("Royalties-payment.csv", payments);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Erro ao desserializar o arquivo json.", ex);
+        }
+    }
 }
